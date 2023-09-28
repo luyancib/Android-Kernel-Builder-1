@@ -266,3 +266,12 @@ jobs:
           path: ./${{ env.kernelDir }}/AnyKernel3/*
           if-no-files-found: ignore
           retention-days: 7
+      - name: 🧧 Create GitHub Release => (${{ env.builddate }}) 
+         continue-on-error: true 
+         uses: softprops/action-gh-release@v1 
+         if: ${{ env.useAnykernel == 'true' && env.release == 'true' }} 
+         with: 
+           tag_name: v${{ env.builddate }}.${{ github.run_number }} 
+           body: 'redcliff:基于a13的类原可以尝试使用 PixelExperience:仅在PE11中测试通过，其他版本自测' 
+           files: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip" 
+           generate_release_notes: true
